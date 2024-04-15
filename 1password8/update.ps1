@@ -56,6 +56,7 @@ function global:au_GetLatest {
             URL64        = $msi_url
             Version      = $version_1password8
             ReleaseNotes = "$releaseNotes"
+            SilentArgs   = "/qn"
         }
     }
     else {
