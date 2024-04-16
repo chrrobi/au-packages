@@ -27,11 +27,8 @@ $registry_path=$1password_registry_uninstall.PSPath
 $registry_install_location=$1password_registry_uninstall.InstallLocation
 
 #For some reason 1Password msi says it installed in C:\APPDIR sometimes rather than C:\Program Files\1Password
-#need to correct the InstallLocation for the uninstall to work correctly with chocolatey
+#Just flagging it and this is why we need custom uninstall
 if (!($installLocation -ieq $registry_install_location))
 {
-
+  Write-Host "Registry claims installed to:'$registry_install_location' rather than correct:'$installLocation'"
 }
-
-# Register-Application "$installLocation\$packageName.exe"
-# Write-Host "$packageName registered as $packageName"
