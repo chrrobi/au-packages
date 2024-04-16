@@ -1,7 +1,7 @@
-$ErrorActionPreference = 'Stop'
+﻿$ErrorActionPreference = 'Stop'
 
 $packageArgs = @{
-  packageName    = '1password8'
+  packageName    = '1password'
   fileType       = 'msi'
   softwareName   = '1Password 8'
 
@@ -14,3 +14,24 @@ $packageArgs = @{
 }
 
 Install-ChocolateyPackage @packageArgs
+
+rm $toolsDir\*.msi -ea 0
+
+$packageName = $packageArgs.packageName
+$installLocation = Get-AppInstallLocation "$packageName*"
+if (!$installLocation)  { Write-Warning "Can't find $packageName install location"; return }
+Write-Host "$packageName installed to '$installLocation'"
+
+$1password_registry_uninstall=Get-ChildItem -Path HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall, HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall | Get-ItemProperty | Where-Object {$_.DisplayName -match “1password*” }
+$registry_path=$1password_registry_uninstall.PSPath
+$registry_install_location=$1password_registry_uninstall.InstallLocation
+
+#For some reason 1Password msi says it installed in C:\APPDIR sometimes rather than C:\Program Files\1Password
+#need to correct the InstallLocation for the uninstall to work correctly with chocolatey
+if (!($installLocation -ieq $registry_install_location))
+{
+
+}
+
+# Register-Application "$installLocation\$packageName.exe"
+# Write-Host "$packageName registered as $packageName"
