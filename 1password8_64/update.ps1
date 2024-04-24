@@ -12,7 +12,7 @@ function global:au_SearchReplace {
         "(?i)(^\s*checksumType\s*=\s*)('.*')" = "`$1'$($Latest.ChecksumType64)'"
         "(?i)^(\s*silentArgs\s*=\s*)['`"].*['`"]" = "`${1}`"$($Latest.SilentArgs)`""
       }
-      ".\1password8.nuspec" = @{
+      ".\1password8_64.nuspec" = @{
         "\<releaseNotes\>.+" = "<releaseNotes>$($Latest.ReleaseNotes)</releaseNotes>"
       }
     }
